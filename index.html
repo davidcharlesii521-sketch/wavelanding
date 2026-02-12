@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WAVE | Stay Authentic. Get Fly.</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content="10x Your Marketing & Get Sales. The ultimate streetwear rotation cycle for authentic brands. Stay Authentic. Get Fly.">
+    
+    <!-- External Frameworks -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root {
+            --wave-cyan: #00F0FF;
+            --wave-black: #0A0A0A;
+            --wave-gray: #1A1A1A;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--wave-black);
+            color: white;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .font-street { font-family: 'Bebas Neue', cursive; letter-spacing: 0.1em; }
+        .text-cyan { color: var(--wave-cyan); }
+        .bg-cyan { background-color: var(--wave-cyan); }
+        .border-cyan { border-color: var(--wave-cyan); }
+        
+        .hero-gradient {
+            background: linear-gradient(rgba(10, 10, 10, 0.7), rgba(10, 10, 10, 0.9)), 
+                        url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-blur {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .card-blur:hover {
+            border-color: var(--wave-cyan);
+            transform: translateY(-5px);
+        }
+
+        .sticky-header {
+            backdrop-filter: blur(15px);
+            background: rgba(10, 10, 10, 0.8);
+        }
+
+        .nav-link {
+            position: relative;
+            transition: color 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--wave-cyan);
+            transition: width 0.3s;
+        }
+
+        .nav-link:hover::after { width: 100%; }
+
+        @keyframes pulse-cyan {
+            0% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
+            70% { box-shadow: 0 0 0 15px rgba(0, 240, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0); }
+        }
+
+        .btn-pulse { animation: pulse-cyan 2s infinite; }
+
+        .view-transition {
+            transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+        }
+
+        .hidden-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .active-view {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--wave-black); }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--wave-cyan); }
+    </style>
+</head>
+<body>
+
+    <!-- SUCCESS NOTIFICATION -->
+    <div id="notification" class="fixed top-24 right-6 z-[100] transform translate-x-full transition-transform duration-500">
+        <div class="bg-cyan text-black px-6 py-4 rounded-xl font-bold shadow-2xl flex items-center gap-3">
+            <i data-lucide="check-circle-2"></i>
+            <span id="notification-text">Action Successful!</span>
+        </div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="fixed top-0 w-full z-50 sticky-header border-b border-white/10">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div onclick="showView('home')" class="text-4xl font-street font-black tracking-tighter text-white cursor-pointer hover:text-cyan transition">WAVE</div>
+            
+            <div class="hidden md:flex space-x-8 items-center">
+                <div onclick="showView('home')" class="nav-link text-sm uppercase font-bold tracking-widest text-white">Home</div>
+                <a href="#features" onclick="showView('home')" class="nav-link text-sm uppercase font-bold tracking-widest text-white">Features</a>
+                <a href="#pricing" onclick="showView('home')" class="nav-link text-sm uppercase font-bold tracking-widest text-white">Pricing</a>
+                <div class="flex space-x-4 border-l border-white/20 pl-6">
+                    <a href="#" class="hover:text-cyan transition text-white"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="hover:text-cyan transition text-white"><i data-lucide="linkedin"></i></a>
+                </div>
+                <button onclick="scrollToJoin()" class="bg-cyan text-black px-6 py-2 rounded-full font-black uppercase text-xs tracking-tighter hover:scale-105 transition btn-pulse">Join the Wave</button>
+            </div>
+
+            <button class="md:hidden text-white" id="mobile-menu-btn">
+                <i data-lucide="menu"></i>
+            </button>
+        </nav>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main id="main-content">
+        
+        <!-- HOME VIEW -->
+        <div id="home-view" class="view-transition active-view">
+            <!-- HERO SECTION -->
+            <section id="home" class="hero-gradient min-h-screen flex items-center pt-20">
+                <div class="container mx-auto px-6">
+                    <div class="max-w-4xl">
+                        <span class="inline-block bg-cyan text-black px-3 py-1 text-xs font-black uppercase mb-6 tracking-widest">Authentic Streetwear. Affordable Pricing. Stay Authentic. Get Fly.</span>
+                        <h1 class="text-6xl md:text-9xl font-street leading-none mb-6 uppercase tracking-tighter">10x YOUR MARKETING <br><span class="text-cyan">& GET SALES</span></h1>
+                        <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-2xl leading-relaxed">
+                            We're ending the $371 billion industry fragmentation. Connect with elite up-and-coming brands at prices that don't break the bank.
+                        </p>
+                        <div class="flex flex-col md:flex-row gap-4">
+                            <button onclick="scrollToJoin()" class="bg-white text-black px-10 py-4 rounded-full font-black uppercase tracking-tighter text-lg hover:bg-cyan transition text-center">Join the Waitlist</button>
+                            <button onclick="showView('brands')" class="border-2 border-white px-10 py-4 rounded-full font-black uppercase tracking-tighter text-lg hover:bg-white hover:text-black transition text-center">For Brand Owners</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEATURES SECTION -->
+            <section id="features" class="py-24 bg-black">
+                <div class="container mx-auto px-6">
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="card-blur p-8 rounded-2xl">
+                            <i data-lucide="flame" class="w-12 h-12 text-cyan mb-6"></i>
+                            <h3 class="text-2xl font-street mb-4 uppercase">Curated Heat</h3>
+                            <p class="text-gray-400">Only 100 vetted brands per month. Rotating drops keep your rotation fresh and authentic.</p>
+                        </div>
+                        <div class="card-blur p-8 rounded-2xl">
+                            <i data-lucide="banknote" class="w-12 h-12 text-cyan mb-6"></i>
+                            <h3 class="text-2xl font-street mb-4 uppercase">Direct Pricing</h3>
+                            <p class="text-gray-400">Direct-to-consumer access. Average $90 per piece vs the soul-crushing $300 hype rates.</p>
+                        </div>
+                        <div class="card-blur p-8 rounded-2xl">
+                            <i data-lucide="repeat" class="w-12 h-12 text-cyan mb-6"></i>
+                            <h3 class="text-2xl font-street mb-4 uppercase">The Trade Loop</h3>
+                            <p class="text-gray-400">Cop the heat, rock it, and eventually trade it. We're building the first sustainable streetwear cycle.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- JOIN SECTION -->
+            <section id="join" class="py-32 bg-black border-t border-white/5">
+                <div class="container mx-auto px-6 text-center">
+                    <h2 class="text-7xl md:text-9xl font-street mb-8 leading-none uppercase">BE PART OF <br>THE MOVEMENT</h2>
+                    <p class="text-2xl mb-12 text-gray-300">Don't miss the first drop. Get on the waitlist now.</p>
+                    
+                    <!-- NETLIFY WAITLIST FORM -->
+                    <form id="waitlist-form" name="waitlist" method="POST" data-netlify="true" class="max-w-xl mx-auto flex flex-col md:flex-row gap-4">
+                        <input type="hidden" name="form-name" value="waitlist" />
+                        <input type="email" name="email" required placeholder="Enter your email" class="flex-grow bg-white/10 border border-white/20 px-6 py-4 rounded-full text-white focus:outline-none focus:border-cyan">
+                        <button type="submit" class="bg-cyan text-black px-10 py-4 rounded-full font-black uppercase hover:scale-105 transition">Secure My Spot</button>
+                    </form>
+                </div>
+            </section>
+        </div>
+
+        <!-- BRAND OWNERS VIEW -->
+        <div id="brands-view" class="view-transition hidden-view min-h-screen bg-black pt-32 pb-24">
+            <div class="container mx-auto px-6">
+                <div class="max-w-6xl mx-auto">
+                    <button onclick="showView('home')" class="flex items-center gap-2 text-cyan mb-12 hover:gap-4 transition-all group uppercase font-bold tracking-widest text-sm">
+                        <i data-lucide="arrow-left" class="group-hover:-translate-x-1 transition-transform"></i> Back to Home
+                    </button>
+
+                    <div class="grid lg:grid-cols-2 gap-16 items-start">
+                        <div>
+                            <span class="text-cyan font-black uppercase tracking-[0.3em] text-sm mb-4 block">Partner Program</span>
+                            <h2 class="text-6xl md:text-8xl font-street leading-tight mb-8">SCALED GROWTH. <br><span class="text-cyan text-8xl">ZERO RISK.</span></h2>
+                            
+                            <div class="space-y-12">
+                                <div class="flex gap-6">
+                                    <div class="w-16 h-16 bg-cyan/10 rounded-2xl flex items-center justify-center shrink-0 border border-cyan/20">
+                                        <i data-lucide="trending-up" class="text-cyan w-8 h-8"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-2xl font-street text-white mb-2">10X MARKETING VALUE</h4>
+                                        <p class="text-gray-400 leading-relaxed">Most platforms just list you. We amplify you. Our network ensures your brand gets 10x the exposure compared to traditional retail listings.</p>
+                                    </div>
+                                </div>
+
+                                <div class="flex gap-6">
+                                    <div class="w-16 h-16 bg-cyan/10 rounded-2xl flex items-center justify-center shrink-0 border border-cyan/20">
+                                        <i data-lucide="unlock" class="text-cyan w-8 h-8"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-2xl font-street text-white mb-2">NO MONEY UP FRONT</h4>
+                                        <p class="text-gray-400 leading-relaxed">We succeed only when you do. There are zero listing fees, zero monthly subscriptions, and zero upfront costs.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-blur p-10 rounded-3xl border-cyan/20">
+                            <h3 class="text-3xl font-street mb-2 uppercase">APPLY TO THE WAVE</h3>
+                            <p class="text-gray-400 mb-8">Tell us about your label. Our curators review every brand for quality and authenticity.</p>
+                            
+                            <!-- NETLIFY BRAND FORM -->
+                            <form id="brand-form" name="brand-applications" method="POST" data-netlify="true" class="space-y-6">
+                                <input type="hidden" name="form-name" value="brand-applications" />
+                                <div>
+                                    <label class="block text-xs uppercase font-black text-gray-500 mb-2 tracking-widest">Brand Name</label>
+                                    <input type="text" name="brand_name" required placeholder="The Name of Your Label" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-white focus:outline-none focus:border-cyan transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs uppercase font-black text-gray-500 mb-2 tracking-widest">Contact Email</label>
+                                    <input type="email" name="email" required placeholder="owner@yourbrand.com" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-white focus:outline-none focus:border-cyan transition">
+                                </div>
+                                <div>
+                                    <label class="block text-xs uppercase font-black text-gray-500 mb-2 tracking-widest">Portfolio/IG Link</label>
+                                    <input type="text" name="portfolio" placeholder="@yourbrand_social" class="w-full bg-white/5 border border-white/10 px-6 py-4 rounded-xl text-white focus:outline-none focus:border-cyan transition">
+                                </div>
+                                <button type="submit" class="w-full bg-cyan text-black py-5 rounded-xl font-black uppercase text-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition duration-300">Submit Application</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-zinc-950 py-16 border-t border-white/10">
+        <div class="container mx-auto px-6 text-center">
+            <div class="text-5xl font-street font-black text-cyan mb-8">WAVE</div>
+            <p class="text-gray-400 max-w-lg mx-auto mb-12 italic text-lg leading-relaxed">
+                "The heartbeat of the streets. From the first drop to the final trade, the rotation never ends."
+            </p>
+            <div class="flex justify-center space-x-8 mb-12">
+                <a href="#" class="text-gray-400 hover:text-cyan transition uppercase text-xs font-bold tracking-widest">Instagram</a>
+                <a href="#" class="text-gray-400 hover:text-cyan transition uppercase text-xs font-bold tracking-widest">LinkedIn</a>
+                <a href="#" class="text-gray-400 hover:text-cyan transition uppercase text-xs font-bold tracking-widest">Contact</a>
+            </div>
+            <p class="text-[10px] text-gray-700 uppercase tracking-[0.2em]">© 2026 Wave Streetwear. Stay Authentic. Get Fly.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Initialize Icons
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+
+            // Mobile Menu Simple Logic
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            if (menuBtn) {
+                menuBtn.addEventListener('click', () => {
+                    notify("Mobile Menu Coming Soon");
+                });
+            }
+
+            // AJAX Form Handlers for Netlify
+            const handleFormSubmit = async (e, successMessage) => {
+                e.preventDefault();
+                const form = e.target;
+                const formData = new FormData(form);
+                
+                try {
+                    await fetch("/", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                        body: new URLSearchParams(formData).toString(),
+                    });
+                    notify(successMessage);
+                    form.reset();
+                } catch (error) {
+                    notify("Connection error. Please try again.");
+                }
+            };
+
+            document.getElementById('waitlist-form')?.addEventListener('submit', (e) => {
+                handleFormSubmit(e, "You're on the list. Get ready to Fly.");
+            });
+
+            document.getElementById('brand-form')?.addEventListener('submit', (e) => {
+                handleFormSubmit(e, "Application Received. We'll be in touch.");
+            });
+        });
+
+        // View Navigation Logic
+        function showView(viewName) {
+            const homeView = document.getElementById('home-view');
+            const brandsView = document.getElementById('brands-view');
+            
+            if (!homeView || !brandsView) return;
+
+            homeView.classList.remove('active-view');
+            homeView.classList.add('hidden-view');
+            brandsView.classList.remove('active-view');
+            brandsView.classList.add('hidden-view');
+
+            const selected = document.getElementById(viewName + '-view');
+            if (selected) {
+                selected.classList.remove('hidden-view');
+                selected.classList.add('active-view');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function scrollToJoin() {
+            showView('home');
+            setTimeout(() => {
+                const joinSection = document.getElementById('join');
+                if (joinSection) joinSection.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        function notify(text) {
+            const el = document.getElementById('notification');
+            const txt = document.getElementById('notification-text');
+            if (!el || !txt) return;
+
+            txt.innerText = text;
+            el.classList.remove('translate-x-full');
+            
+            setTimeout(() => {
+                el.classList.add('translate-x-full');
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
